@@ -1,40 +1,34 @@
 #include <iostream>
 #include <string>
-#include <string.h>
 #include <vector>
-#include <iomanip>
-#include <locale.h>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
-int main()
-{
-    string buf;
-    getline(cin, buf);
+int main(){
+    // индивидуальное задание 1 – удалить последнюю букву слова
+    string buf, filename_in, res;
+    ifstream fin;
+    cout << "Введите путь к входному файлу:\n";
+    cin >> filename_in;
+    fin.open(filename_in);
+
+    getline(fin, buf);
     bool space = false;
-    string res;
 
     string::iterator ibuf = buf.begin();
     int size = buf.length();
-    for (int i = 0;i<size; i++){
-        if (*ibuf == ' ' && space == true) {
+    for (int i = 0; i < size; i++){
+        if (*ibuf == ' ' && space) {
             // уже встретили пробел, больше не нужно
             ibuf++;
             continue;
         }
-        if (*ibuf == ' ' && space == false){
-            // не встречали пробел добавляем его в результат
-            res.push_back(*ibuf);
-            space = true;
-            ibuf++;
-        }
-        else {
-            // если символ не пробел – добавляем его
-            res.push_back(*ibuf);
-            space = false;
-            ibuf++;
-        }
+        // не встречали пробел, добавляем в результат
+        res.push_back(*ibuf);
+        space = *ibuf == ' ' && !space;
+        ibuf++;
     }
 
     buf = res;
@@ -81,7 +75,7 @@ int main()
             word.clear();
 
     }
-    cout << "без последнего слово = " << lastword << "\n\n";
+    cout << "без последнего слова = " << lastword << "\n\n";
     cout << "без последней буквы = " << lastletter;
     return 0;
 }
